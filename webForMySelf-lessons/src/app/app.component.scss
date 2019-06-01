@@ -1,0 +1,10 @@
+.container {
+  padding-top: 50px;
+
+  ::ng-deep .btn {
+    margin-bottom: 15px;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}
