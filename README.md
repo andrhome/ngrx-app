@@ -1,1 +1,1 @@
-# learn-ngrx
+# ngrx-project
