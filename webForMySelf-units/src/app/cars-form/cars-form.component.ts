@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Car, Cars } from '../car.model';
+import { Car } from '../car.model';
 import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../redux/app.state';
@@ -14,7 +14,6 @@ import { CarsService } from '../services/cars.service';
 export class CarsFormComponent implements OnInit {
   carName: string;
   carModel: string;
-  id = 4;
 
   constructor(private store: Store<AppState>,
               private carsServ: CarsService) { }
@@ -25,22 +24,22 @@ export class CarsFormComponent implements OnInit {
   onAdd(): void {
     if (this.carModel === '' || this.carName === '') return;
 
-    const car = new Car(
-      this.carName,
-      moment().format('DD.MM.YY'),
-      this.carModel,
-      false,
-      this.id
-    );
-    this.store.dispatch(new AddCar(car));
+    const date = moment().format('DD.MM.YY');
+    const car = new Car(this.carName, date, this.carModel);
+
+    this.carsServ.addCar(car).subscribe((res: Car) => {
+      console.log('Added the car: ', res);
+      this.store.dispatch(new AddCar(res));
+    });
+
     this.carModel = '';
     this.carName = '';
   }
 
   onLoad(): void {
-    this.carsServ.loadCars().subscribe(res => {
-      const cars: Car[] = res.cars;
-      this.store.dispatch(new LoadCars(cars))
+    this.carsServ.loadCars().subscribe((res: Car[]) => {
+      console.log('Loaded the cars: ', res);
+      this.store.dispatch(new LoadCars(res))
     });
   }
 
