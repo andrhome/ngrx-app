@@ -5,17 +5,21 @@ import { Car } from '../car.model';
 
 @Injectable()
 export class CarsService {
-  private BASE_URL = 'http://localhost:3000/';
+  private CARS_URL = 'http://localhost:3000/cars';
 
   constructor(private http: HttpClient) {
 
   }
 
   loadCars(): Observable<any> {
-    return this.http.get(this.BASE_URL + 'cars');
+    return this.http.get(this.CARS_URL);
   }
 
   addCar(car: Car): Observable<any> {
-    return this.http.post(this.BASE_URL + 'cars', car);
+    return this.http.post(this.CARS_URL, car);
+  }
+
+  deleteCar(car: Car): Observable<any> {
+    return this.http.delete(`${this.CARS_URL}/${car.id}`)
   }
 }

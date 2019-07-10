@@ -3,7 +3,7 @@ import { Car } from '../car.model';
 import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import { AppState } from '../redux/app.state';
-import { AddCar, LoadCars } from '../redux/cars.action';
+import { AddCar, DeleteCar, LoadCars } from '../redux/cars.action';
 import { CarsService } from '../services/cars.service';
 
 @Component({
@@ -21,6 +21,13 @@ export class CarsFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  onLoad(): void {
+    this.carsServ.loadCars().subscribe((res: Car[]) => {
+      console.log('Loaded the cars: ', res);
+      this.store.dispatch(new LoadCars(res))
+    });
+  }
+
   onAdd(): void {
     if (this.carModel === '' || this.carName === '') return;
 
@@ -34,13 +41,6 @@ export class CarsFormComponent implements OnInit {
 
     this.carModel = '';
     this.carName = '';
-  }
-
-  onLoad(): void {
-    this.carsServ.loadCars().subscribe((res: Car[]) => {
-      console.log('Loaded the cars: ', res);
-      this.store.dispatch(new LoadCars(res))
-    });
   }
 
 }
