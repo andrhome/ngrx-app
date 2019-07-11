@@ -11,7 +11,7 @@
       "name": "BMW",
       "date": "10.07.19",
       "model": "M5 Sport",
-      "isSolid": false,
+      "isSolid": true,
       "id": 3
     }
   ]

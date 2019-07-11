@@ -19,15 +19,19 @@ export class CarComponent implements OnInit {
   ngOnInit() {
   }
 
-  onDelete(car: Car): void {
-    this.carsServ.deleteCar(car).subscribe(() => {
-      console.log('Removed the car: ', car);
-      this.store.dispatch(new DeleteCar(car));
+  onDelete(): void {
+    this.carsServ.deleteCar(this.car).subscribe(() => {
+      console.log('Removed the car: ', this.car);
+      this.store.dispatch(new DeleteCar(this.car));
     });
   }
 
   onBuy(): void {
-    this.store.dispatch(new UpdateCar(this.car))
+    this.car.isSolid = true;
+    this.carsServ.updateCar(this.car).subscribe(() => {
+      console.log('Bought the car: ', this.car);
+      this.store.dispatch(new UpdateCar(this.car))
+    });
   }
 
 }
